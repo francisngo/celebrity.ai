@@ -8,16 +8,22 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { MobileSidebar } from "@/components/mobile-sidebar";
 
 const font = Poppins({
 	weight: "600",
 	subsets: ["latin"],
 });
 
-export const Navbar = () => {
+interface NavbarProps {
+	isPro: boolean;
+}
+
+export const Navbar = ({ isPro }: NavbarProps) => {
 	return (
-		<div className="fixed w-full z-50 flex justify-between items-center py-2 px-4 border-b border-primary/10 bg-secondary">
+		<div className="fixed w-full z-50 flex justify-between items-center py-2 px-4 border-b border-primary/10 bg-secondary h-16">
 			<div className="flex items-center">
+				<MobileSidebar isPro={isPro} />
 				<Link href="/">
 					<h1
 						className={cn(
