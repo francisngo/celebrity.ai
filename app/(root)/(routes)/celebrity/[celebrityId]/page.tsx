@@ -9,7 +9,7 @@ interface CelebrityIdPageProps {
 
 const CelebrityIdPage = async ({ params }: CelebrityIdPageProps) => {
 	// TODO: Check subscription logic here
-	const Celebrity = await prisma.companion.findUnique({
+	const Celebrity = await prisma.celebrity.findUnique({
 		where: {
 			id: params.CelebrityId,
 		},

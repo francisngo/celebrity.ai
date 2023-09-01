@@ -1,7 +1,7 @@
 "use client";
 
 import * as z from "zod";
-import { Companion, Category } from "@prisma/client";
+import { Celebrity, Category } from "@prisma/client";
 import { useForm } from "react-hook-form";
 import { Wand2 } from "lucide-react";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -44,7 +44,7 @@ Elon: Always! But right now, I'm particularly excited about Neuralink. It has th
 `;
 
 interface CelebrityFormProps {
-	initialData: Companion | null;
+	initialData: Celebrity | null;
 	categories: Category[];
 }
 

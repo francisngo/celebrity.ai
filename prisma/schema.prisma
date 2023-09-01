@@ -13,12 +13,12 @@ datasource db {
 }
 
 model Category {
-  id         String      @id @default(uuid())
-  name       String
-  companions Companion[]
+  id          String      @id @default(uuid())
+  name        String
+  celebrities Celebrity[]
 }
 
-model Companion {
+model Celebrity {
   id           String   @id @default(uuid())
   userId       String
   userName     String
