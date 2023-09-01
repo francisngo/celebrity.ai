@@ -3,7 +3,7 @@ import { CelebrityForm } from "./components/celebrity-form";
 
 interface CelebrityIdPageProps {
 	params: {
-		CelebrityId: string;
+		celebrityId: string;
 	};
 }
 
@@ -11,7 +11,7 @@ const CelebrityIdPage = async ({ params }: CelebrityIdPageProps) => {
 	// TODO: Check subscription logic here
 	const Celebrity = await prisma.celebrity.findUnique({
 		where: {
-			id: params.CelebrityId,
+			id: params.celebrityId,
 		},
 	});
 
