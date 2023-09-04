@@ -5,10 +5,10 @@ import { Poppins } from "next/font/google";
 import { UserButton } from "@clerk/nextjs";
 import Link from "next/link";
 
-import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
-import { ThemeToggle } from "@/components/theme-toggle";
-import { MobileSidebar } from "@/components/mobile-sidebar";
+import { cn } from "@/app/lib/utils";
+import { Button } from "@/app/components/ui/button";
+import { ThemeToggle } from "@/app/components/theme-toggle";
+import { MobileSidebar } from "@/app/components/mobile-sidebar";
 
 const font = Poppins({
 	weight: "600",

@@ -1,5 +1,5 @@
-import { Navbar } from "@/components/navbar";
-import { Sidebar } from "@/components/sidebar";
+import { Navbar } from "@/app/components/navbar";
+import { Sidebar } from "@/app/components/sidebar";
 
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
 	const isPro = true;

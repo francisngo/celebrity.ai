@@ -1,7 +1,7 @@
-import { SearchInput } from "@/components/search-input";
-import prisma from "@/lib/prisma";
+import { SearchInput } from "@/app/components/search-input";
+import prisma from "@/app/lib/prisma";
 
-import { Categories } from "@/components/categories";
+import { Categories } from "@/app/components/categories";
 
 const RootPage = async () => {
 	const categories = await prisma.category.findMany();

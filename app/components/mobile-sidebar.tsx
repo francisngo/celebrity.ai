@@ -1,6 +1,6 @@
 import { Menu } from "lucide-react";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Sidebar } from "@/components/sidebar";
+import { Sheet, SheetContent, SheetTrigger } from "@/app/components/ui/sheet";
+import { Sidebar } from "@/app/components/sidebar";
 
 export const MobileSidebar = ({ isPro }: { isPro: boolean }) => {
 	return (
