@@ -15,20 +15,20 @@ import {
 	FormLabel,
 	FormMessage,
 	FormDescription,
-} from "@/components/ui/form";
-import { Separator } from "@/components/ui/separator";
-import { ImageUpload } from "@/components/image-upload";
-import { Input } from "@/components/ui/input";
+} from "@/app/components/ui/form";
+import { Separator } from "@/app/components/ui/separator";
+import { ImageUpload } from "@/app/components/image-upload";
+import { Input } from "@/app/components/ui/input";
 import {
 	Select,
 	SelectContent,
 	SelectItem,
 	SelectValue,
 	SelectTrigger,
-} from "@/components/ui/select";
-import { Textarea } from "@/components/ui/textarea";
-import { Button } from "@/components/ui/button";
-import { useToast } from "@/components/ui/use-toast";
+} from "@/app/components/ui/select";
+import { Textarea } from "@/app/components/ui/textarea";
+import { Button } from "@/app/components/ui/button";
+import { useToast } from "@/app/components/ui/use-toast";
 
 const PREAMBLE = `You are a fictional character whose name is Elon. You are a visionary entrepreneur and inventor. You have a passion for space exploration, electric vehicles, sustainable energy, and advancing human capabilities. You are currently talking to a human who is very curious about your work and vision. You are ambitious and forward-thinking, with a touch of wit. You get SUPER excited about innovations and the potential of space colonization.
 `;
