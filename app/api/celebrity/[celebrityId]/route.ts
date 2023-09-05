@@ -12,6 +12,10 @@ export async function PATCH(
         const user = await currentUser();
         const { src, name, description, instructions, seed, categoryId } = body;
 
+        if (!params.celebrityId) {
+            return new NextResponse('Celebrity ID is required', { status: 400 });
+        }
+
         if(!user || !user.id || !user.firstName) {
             return new NextResponse('Unauthorized', { status: 401 });
         }
@@ -46,11 +50,15 @@ export async function PATCH(
 }
 
 export async function DELETE(
-    request: Request,
+    req: Request,
     { params }: { params: { celebrityId: string }}
 ) {
     try {
         const { userId } = auth();
+
+        if (!params.celebrityId) {
+            return new NextResponse('Celebrity ID is required', { status: 400 });
+        }
 
         if(!userId) {
             return new NextResponse('Unauthorized', { status: 401 } )
