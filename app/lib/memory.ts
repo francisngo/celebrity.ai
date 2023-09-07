@@ -59,7 +59,7 @@ export class MemoryManager {
         return MemoryManager.instance;
     }
 
-    private generateRediscelebrityKey(celebrityKey: CelebrityKey): string {
+    private generateRedisCelebrityKey(celebrityKey: CelebrityKey): string {
         return `${celebrityKey.celebrityName}-${celebrityKey.modelName}-${celebrityKey.userId}`;
     }
 
@@ -69,7 +69,7 @@ export class MemoryManager {
             return '';
         }
 
-        const key = this.generateRediscelebrityKey(celebrityKey);
+        const key = this.generateRedisCelebrityKey(celebrityKey);
         const result = await this.history.zadd(key, {
             score: Date.now(),
             member: text,
@@ -84,7 +84,7 @@ export class MemoryManager {
             return '';
         }
 
-        const key = this.generateRediscelebrityKey(celebrityKey);
+        const key = this.generateRedisCelebrityKey(celebrityKey);
         let result = await this.history.zrange(key, 0, Date.now(), {
             byScore: true,
         });
@@ -99,7 +99,7 @@ export class MemoryManager {
         delimiter: string = '\n',
         celebrityKey: CelebrityKey
     ) {
-        const key = this.generateRediscelebrityKey(celebrityKey);
+        const key = this.generateRedisCelebrityKey(celebrityKey);
         if (await this.history.exists(key)) {
             console.log('User already has chat history');
             return;
