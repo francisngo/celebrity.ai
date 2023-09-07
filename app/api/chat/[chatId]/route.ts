@@ -1,6 +1,6 @@
 import dotenv from 'dotenv';
 import { StreamingTextResponse, LangChainStream } from 'ai';
-import { auth, currentUser } from '@clerk/nextjs';
+import { currentUser } from '@clerk/nextjs';
 import { Replicate } from 'langchain/llms/replicate';
 import { CallbackManager } from 'langchain/callbacks';
 import { NextResponse } from 'next/server';
@@ -93,7 +93,7 @@ export async function POST (
         // https://replicate.com/meta/llama-2-13b-chat
         // what is the difference between llama-2 7b, 13b, 70b? - https://replicate.com/blog/all-the-llamas
         const model = new Replicate({
-            model: "meta/llama-2-13b-chat:7457c09004773f9f9710f7eb3b270287ffcebcfb23a13c8ec30cfb98f6bff9b2",
+            model: "a16z-infra/llama-2-13b-chat:df7690f1994d94e96ad9d568eac121aecf50684a0b0963b25a41cc40061269e5",
             input: {
                 max_length: 2048,
             },
