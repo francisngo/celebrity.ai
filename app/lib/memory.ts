@@ -30,7 +30,7 @@ export class MemoryManager {
 
     public async vectorSearch(
         recentChatHistory: string,
-        companionFileName: string
+        celebrityFileName: string
     ) {
         const pineconeClient = <PineconeClient>this.vectorDBClient;
     
@@ -42,12 +42,15 @@ export class MemoryManager {
           new OpenAIEmbeddings({ openAIApiKey: process.env.OPENAI_API_KEY }),
           { pineconeIndex }
         ); 
+
+        console.log('vectorStore?: ', vectorStore);
     
         const similarDocs = await vectorStore
-          .similaritySearch(recentChatHistory, 3, { fileName: companionFileName })
+        .similaritySearch(recentChatHistory, 3, { fileName: celebrityFileName })
           .catch((err) => {
             console.log("WARNING: failed to get vector search results.", err);
-          });
+        });
+
         return similarDocs;
     }
 

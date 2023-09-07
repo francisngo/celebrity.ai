@@ -19,20 +19,22 @@ model Category {
 }
 
 model Celebrity {
-  id           String   @id @default(uuid())
+  id           String @id @default(uuid())
   userId       String
   userName     String
   src          String
-  name         String   @db.Text
+  name         String @db.Text
   description  String
-  instructions String   @db.Text
-  seed         String   @db.Text
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  instructions String @db.Text
+  seed         String @db.Text
 
-  category   Category  @relation(fields: [categoryId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  category   Category @relation(fields: [categoryId], references: [id])
   categoryId String
-  messages   Message[]
+
+  messages Message[]
 
   @@index([categoryId])
   @@fulltext([name])

@@ -11,7 +11,7 @@ import prisma from '@/app/lib/prisma';
 
 dotenv.config({ path: '.env' });
 
-export async function POST (
+export async function POST(
     request: Request,
     { params }: { params: { chatId: string } }
 ) {
@@ -26,6 +26,8 @@ export async function POST (
         // rate limiter
         const identifier = request.url + '-' + user.id;
         const { success } = await rateLimit(identifier);
+
+        console.log('success?: ', success);
 
         if (!success) {
             return new NextResponse('Rate limit exceeded', { status: 429 });
@@ -47,6 +49,8 @@ export async function POST (
             }
         });
 
+        console.log('celebrity?: ', celebrity);
+
         if (!celebrity) {
             return new NextResponse('Celebrity not found', { status: 404 });
         }
@@ -58,30 +62,38 @@ export async function POST (
         const celebrityKey = {
             celebrityName: name,
             userId: user.id,
-            modelName: 'llama2-13b',
+            modelName: 'llama-2-13b',
         }
 
-        // check redis for chat history with user & celebrity
+        // // check redis for chat history with user & celebrity
         const memoryManager = await MemoryManager.getInstance();
 
+        console.log('MemoryManager.getInstance?: ', memoryManager);
+
         const records = await memoryManager.readLatestHistory(celebrityKey);
+
+        console.log('records?: ', records);
 
         // seed chat if no records found
         if (records.length === 0) {
             await memoryManager.seedChatHistory(celebrity.seed, "\n\n", celebrityKey);
         }
 
-        // store chat history in vector db
+        // // store chat history in vector db
         await memoryManager.writeToHistory('User: ' + prompt + '\n', celebrityKey);
 
         const recentChatHistory = await memoryManager.readLatestHistory(celebrityKey);
+
+        console.log('recentChatHistory?: ', recentChatHistory);
 
         const similarDocs = await memoryManager.vectorSearch(
             recentChatHistory,
             celebrity_file_name,
         );
 
-        // find relevant history in vector db
+        console.log('similarDocs?: ', similarDocs);
+
+        // // find relevant history in vector db
         let relevantHistory = '';
 
         if (!!similarDocs && similarDocs.length !== 0) {
@@ -90,10 +102,12 @@ export async function POST (
 
         const { handlers } = LangChainStream();
 
+        console.log('REPLICATE_API_TOKEN?: ', process.env.REPLICATE_API_TOKEN)
+
         // https://replicate.com/meta/llama-2-13b-chat
         // what is the difference between llama-2 7b, 13b, 70b? - https://replicate.com/blog/all-the-llamas
         const model = new Replicate({
-            model: "a16z-infra/llama-2-13b-chat:df7690f1994d94e96ad9d568eac121aecf50684a0b0963b25a41cc40061269e5",
+            model: "meta/llama-2-13b-chat:7457c09004773f9f9710f7eb3b270287ffcebcfb23a13c8ec30cfb98f6bff9b2",
             input: {
                 max_length: 2048,
             },
@@ -110,30 +124,36 @@ export async function POST (
             await model
               .call(
                 `
-                ONLY generate plain sentences without prefix of who is speaking. DO NOT use ${celebrity.name}: prefix. 
-        
-                ${celebrity.instructions}
-        
-                Below are relevant details about ${celebrity.name}'s past and the conversation you are in.
-                ${relevantHistory}
-        
-                ${recentChatHistory}\n${celebrity.name}:
-                `
+              ONLY generate plain sentences without prefix of who is speaking. DO NOT use ${celebrity.name}: prefix. 
+      
+              ${celebrity.instructions}
+      
+              Below are relevant details about ${celebrity.name}'s past and the conversation you are in.
+              ${relevantHistory}
+      
+      
+              ${recentChatHistory}\n${celebrity.name}:`
               )
               .catch(console.error)
         );
 
         // clean up response to return to client
         const cleaned = resp.replaceAll(',', '');
+        console.log('cleaned up?: ', cleaned);
         const chunks = cleaned.split('\n');
+        console.log('chunks?: ', chunks);
         const response = chunks[0];
 
+        console.log('response?: ', response);
+
         await memoryManager.writeToHistory('' + response.trim(), celebrityKey);
-        const Readable = require('stream').Readable;
+        var Readable = require('stream').Readable;
 
         let stream = new Readable();
         stream.push(response);
         stream.push(null);
+
+        console.log('response.trim()?: ', response.trim())
 
         if(response !== undefined && response.length > 1) {
             memoryManager.writeToHistory('' + response.trim(), celebrityKey);
@@ -154,6 +174,7 @@ export async function POST (
                 }
             });
         }
+
 
         return new StreamingTextResponse(stream);
     } catch (error) {

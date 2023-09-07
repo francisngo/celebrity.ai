@@ -85,7 +85,7 @@ export const ChatHeader = ({ celebrity }: ChatHeaderProps) => {
 					<DropdownMenuContent align="end">
 						<DropdownMenuItem
 							onClick={() =>
-								router.push(`/companion/${celebrity.id}`)
+								router.push(`/celebrity/${celebrity.id}`)
 							}
 						>
 							<Edit className="w-4 h-4 mr-2" />
