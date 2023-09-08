@@ -42,8 +42,6 @@ export class MemoryManager {
           new OpenAIEmbeddings({ openAIApiKey: process.env.OPENAI_API_KEY }),
           { pineconeIndex }
         ); 
-
-        console.log('vectorStore?: ', vectorStore);
     
         const similarDocs = await vectorStore
         .similaritySearch(recentChatHistory, 3, { fileName: celebrityFileName })
